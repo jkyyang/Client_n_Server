@@ -1,3 +1,11 @@
+/*
+ * @Author: jiaqiyang jkyyang@foxmail.com
+ * @Date: 2023-03-29 18:44:34
+ * @LastEditors: jiaqiyang jkyyang@foxmail.com
+ * @LastEditTime: 2023-03-31 00:07:43
+ * @FilePath: /Client_n_Server/ServerProject/src/helper/Worker.java
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 package helper;
 
 import java.io.BufferedReader;
