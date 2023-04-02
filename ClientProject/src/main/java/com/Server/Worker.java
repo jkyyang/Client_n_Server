@@ -1,12 +1,3 @@
-/*
- * @Author: jiaqiyang jkyyang@foxmail.com
- * @Date: 2023-03-29 00:01:09
- * @LastEditors: jiaqiyang jkyyang@foxmail.com
- * @LastEditTime: 2023-03-31 10:56:56
- * @FilePath: /Client_n_Server/ClientProject/src/main/Client.java
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
-
 package src.main.java.com.Server;
 
 
@@ -24,14 +15,16 @@ import src.main.java.com.staticInfo.SocketInfo;
 // client worker
 public class Worker {
 
+
+    Socket clientSocket = null;
+    Scanner stdINScanner = null;
+
     public void run() throws IOException {
-        // Dispatch();
-        Socket clientSocket = null;
+
 
         clientSocket = new Socket(SocketInfo.getHostName(), SocketInfo.getPortNumber());
 
         try {
-            
             /**
              * 发送
              */            
@@ -59,19 +52,44 @@ public class Worker {
     }
 
 
-    public void Dispatch() {
-        System.out.println("hello, input 1 for sending message");
+    public void LaunchPad() throws IOException{
 
-        Scanner stdINScanner = new Scanner(System.in);
+        stdINScanner = new Scanner(System.in);
 
-        int command = stdINScanner.nextInt();
+        System.out.println("System");
+        System.out.println("Log in: 1");
+        System.out.println("Sign up: 2");
+        System.out.println("exit: 3");
 
-        switch (command) {
-            case 1:
-            System.out.println("hahaha");
+        boolean start = true;
+
+
+
+        while (start) {
+
+            // stdINScanner = new Scanner(System.in);
+
+            int command = stdINScanner.nextInt();
+
+            switch (command) {
+
+                case 1:
+                System.out.println("Log in");
+                this.LogInHelper();
+                break;
+
+                case 2:
+                System.out.println("Sign up");
+                this.SignUpHelper();
+                break;
+
+                case 3:
+                System.out.println("Exit");
+                start = false;
+                break;
+            }
+            
         }
-
-        
 
         stdINScanner.close();
         
@@ -123,7 +141,7 @@ public class Worker {
             // obj that write msg into buffer for svr
             PrintWriter writer = new PrintWriter(skt.getOutputStream(), true);
 
-
+            
             // obj that read standard io stream
             // BufferedReader stdIn = new BufferedReader(
             //     new InputStreamReader()
@@ -139,6 +157,60 @@ public class Worker {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * @description:
+     * logIn
+     * 
+     * 
+     * @return 
+     */
+    private boolean LogInHelper() {
+    
+        return false;
+    }
+
+    /**
+     * @description:
+     * SignIn
+     * 
+     * 
+     * @return 
+     */
+    private boolean SignUpHelper() throws IOException{
+
+        /**
+         * 1 客户端连接服务器，并发送registration request msg进行注册，然后客户端等待注册结果。
+         * 2 若注册请求通过，服务器在本地passwd文件中保存新用户的用户名和密码的hash值，并
+         *   返回registration response msg，通知客户端注册成功。
+         * 3 若注册请求未通过(用户重名)，并返回registration response msg，通知客户端注册失败。
+         * 
+         */
+
+        System.out.print("> User Name: ");
+
+        String username = stdINScanner.next();        
+        // send rr msg
+        clientSocket = new Socket(SocketInfo.getHostName(), SocketInfo.getPortNumber());
+
+        try {            
+            registrationRequestMsg registration_request_msg = new registrationRequestMsg(username);
+
+            SendMsgHelper(clientSocket, registration_request_msg);
+
+            Message rcvMessage = this.getMsgHelper(clientSocket);
+            if (rcvMessage.getReliable()) {
+                System.out.println("re: "+rcvMessage.getMsg());
+            }
+
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+
+
+
+        return false;
     }
 
 

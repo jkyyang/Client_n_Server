@@ -2,38 +2,34 @@
  * @Author: jiaqiyang jkyyang@foxmail.com
  * @Date: 2023-03-29 18:44:34
  * @LastEditors: jiaqiyang jkyyang@foxmail.com
- * @LastEditTime: 2023-03-31 00:07:43
+ * @LastEditTime: 2023-04-02 02:16:58
  * @FilePath: /Client_n_Server/ServerProject/src/helper/Worker.java
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
+
 package helper;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Date;
 
 public class Worker implements Runnable {
     // open socket for client on svr
-
     // java: default access for only the same pkt
-
     Socket socket;
 
     // constructor method
     public Worker(Socket skt) {
-
         this.socket = skt;
     }
-
 
     @Override
     public void run() {
         try {
 
-            // 1: open socket stream
 
+            // 1: open socket stream
             /*
              * socket.getOutputStream():
              *      获取Socket的输出流
@@ -59,20 +55,27 @@ public class Worker implements Runnable {
                     new InputStreamReader(socket.getInputStream())
             );
 
+
+
+
+
+
             // 2 implement msg for next step
-            String msg = "Sign in - " + reader.readLine() + " at " + (new Date());
+            // String msg = "Sign in - " + reader.readLine() + " at " + (new Date());
+
+            String msg = reader.readLine();
 
             System.out.println(msg);
 
-            Thread.sleep(2000);
+            // Thread.sleep(2000);
 
             // 3 return msg to client
 
             writer.println(msg);
 
-            // 4 close this socket
+            // // 4 close this socket
 
-            socket.close();
+            // socket.close();
 
 
         } catch (Exception e) {
@@ -80,8 +83,8 @@ public class Worker implements Runnable {
             e.printStackTrace();
 
         } finally {
-            try {
 
+            try {
                 socket.close();
 
             } catch (Exception e) {
